@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[font=small,skip=4pt]{caption}
+\usepackage{hyperref}
+
+\newcommand{\repo}{\url{https://github.com/richbang/ELEC872-Lab1}}
+
+\title{ELEC 872 Week4 Workshop}
+\author{Daeho Bang, Yujong Cho}
+\date{October 6, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Baseline result}
+
+LBP$^{u2}_{16,2}$, $30\times37$ windows, $\chi^2$ distance, nearest neighbour on ORL~\cite{ahonen2004face}.
+Images 1--5 of each subject are the gallery and images 6--10 the probes (200 each); only the
+probes are changed (uneven lighting: $I + 255\,s\,(x-0.5)$; rotation: about the image centre).
+Our run reproduces the numbers given in the workshop description.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+ & normal & light $s=0.8$ & rot $20^\circ$ \\
+\midrule
+Workshop description & --    & 0.705 & 0.630 \\
+Our baseline run     & 0.975 & 0.705 & 0.630 \\
+\bottomrule
+\end{tabular}
+\caption{Rank-1 recognition rate of the baseline.}
+\end{table}
+
+\section{Our improvement and result}
+
+The LBP descriptor and $\chi^2$ matching are unchanged. We add two steps:
+\begin{enumerate}
+  \item \textbf{Brightness-plane subtraction}~\cite{sung1998example}: fit a plane
+        $ax+by+c$ to the image by least squares and subtract it, which removes the
+        left-to-right lighting gradient.
+  \item \textbf{Rotation search}: store each gallery image rotated by
+        $-24^\circ, -18^\circ, \dots, 24^\circ$ and use the smallest $\chi^2$ over these copies.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccccccc}
+\toprule
+ & & & \multicolumn{4}{c}{light $s$} & \multicolumn{3}{c}{rotation} \\
+\cmidrule(lr){4-7}\cmidrule(lr){8-10}
+ & normal & bright & 0.2 & 0.4 & 0.6 & 0.8 & $5^\circ$ & $10^\circ$ & $20^\circ$ \\
+\midrule
+Baseline & 0.975 & 0.975 & 0.955 & 0.940 & 0.870 & 0.705 & 0.965 & 0.890 & 0.630 \\
+Ours     & \textbf{0.995} & \textbf{0.980} & \textbf{0.985} & \textbf{0.990} & \textbf{0.985} & \textbf{0.985} & \textbf{0.995} & \textbf{0.980} & \textbf{0.940} \\
+\bottomrule
+\end{tabular}
+\caption{Baseline vs.\ ours on the workshop conditions.}
+\end{table}
+
+\noindent Accuracy on normal photos is not lost: over 100 random 5+5 splits (the paper's
+protocol) the baseline gives 0.983 and ours 0.983. Ours also improves conditions we never
+tuned on, e.g.\ rotation by $30^\circ$ ($0.345 \to 0.900$).
+
+\section{Code}
+
+\noindent Repository: \repo\\
+Method: \texttt{lbpface/robust.py} \quad Evaluation: \texttt{experiments/workshop.py}\\
+Run: \texttt{python -m experiments.workshop}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

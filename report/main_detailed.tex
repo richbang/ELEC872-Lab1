@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[a4paper,margin=1.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage[font=small,skip=3pt]{caption}
+\usepackage[compact]{titlesec}
+\usepackage{titling}
+\usepackage{hyperref}
+\setlength{\droptitle}{-1.8cm}
+\setlength{\tabcolsep}{4.5pt}
+
+\newcommand{\repo}{\url{https://github.com/YOUR-ID/YOUR-REPO}}
+
+\title{ELEC 872 Week4 Workshop}
+\author{Daeho Bang, Yujong Cho}
+\date{October 6, 2026}
+
+\begin{document}
+
+\maketitle
+\vspace{-0.8cm}
+
+\section{Baseline result}
+
+\textbf{Recogniser.} LBP$^{u2}_{16,2}$, $30\times37$ windows ($3\times3$ grid on the
+$92\times112$ ORL images), $\chi^2$ distance, nearest neighbour.
+\textbf{Split.} Images 1--5 of each of the 40 subjects form the gallery (200), images 6--10
+the probes (200). Only the probes are changed:
+\emph{bright} $0.5I+20$;
+\emph{light $s$} $I + 255\,s\,(x-0.5)$ with $x\in[0,1]$ the column position (left darker, right brighter);
+\emph{rot $\theta$} bilinear rotation about the centre with black corners.
+All changed images are rounded and clipped to $[0,255]$.
+We reconstructed these definitions from the workshop description; they reproduce the
+quoted baseline numbers exactly (0.705 and 0.630).
+
+\begin{table}[H]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lccccccccc}
+\toprule
+ & & & \multicolumn{4}{c}{uneven lighting $s$} & \multicolumn{3}{c}{rotation $\theta$} \\
+\cmidrule(lr){4-7}\cmidrule(lr){8-10}
+ & normal & bright & 0.2 & 0.4 & 0.6 & 0.8 & $5^\circ$ & $10^\circ$ & $20^\circ$ \\
+\midrule
+Baseline (our run)     & 0.975 & 0.975 & 0.955 & 0.940 & 0.870 & 0.705 & 0.965 & 0.890 & 0.630 \\
+Workshop description   & --    & --    & --    & --    & --    & 0.705 & --    & --    & 0.630 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Rank-1 recognition rate of the baseline on the fixed split.}
+\end{table}
+\vspace{-0.5cm}
+
+\noindent LBP keeps only the sign of $g_p-g_c$, so a monotonic change applied to the whole
+face does nothing (\emph{bright}: 0.975). Two things break it: (i) a brightness ramp adds
+$c\,\Delta x_p$ to every neighbour difference and flips bits in smooth regions (cheeks,
+forehead); (ii) the window grid is fixed in the image, so a rotation moves eyes, nose and
+mouth into other windows.
+
+\section{Our improvement and result}
+
+The LBP descriptor, windows and $\chi^2$ are unchanged; we add two steps around them.
+
+\textbf{(1) Brightness-plane subtraction} (Sung \& Poggio, 1998). Before LBP, every image
+is replaced by $I'(x,y) = I(x,y) - (ax+by+c)$, where
+$(a,b,c)=\arg\min \sum_{(x,y)\in\Omega}\big(I(x,y)-ax-by-c\big)^2$ and
+$\Omega=\{0<I<255\}$ leaves clipped pixels out of the fit. A linear ramp is removed exactly.
+
+\textbf{(2) Rotation search.} Every gallery image $g$ is also stored rotated by
+$\Theta=\{-24^\circ,-18^\circ,\dots,24^\circ\}$ (9 copies, edge pixels repeated instead of
+black corners). A probe $p$ is matched by
+$d(p,g)=\min_{\theta\in\Theta}\chi^2\big(H(p'),\,H(R_\theta g')\big)$.
+The test angles $5^\circ, 10^\circ, 20^\circ$ are deliberately not in $\Theta$.
+
+\begin{table}[H]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lccccccccc}
+\toprule
+ & & & \multicolumn{4}{c}{uneven lighting $s$} & \multicolumn{3}{c}{rotation $\theta$} \\
+\cmidrule(lr){4-7}\cmidrule(lr){8-10}
+ & normal & bright & 0.2 & 0.4 & 0.6 & 0.8 & $5^\circ$ & $10^\circ$ & $20^\circ$ \\
+\midrule
+Baseline         & 0.975 & 0.975 & 0.955 & 0.940 & 0.870 & 0.705 & 0.965 & 0.890 & 0.630 \\
++ plane          & \textbf{0.995} & \textbf{0.980} & \textbf{0.985} & \textbf{0.990} & \textbf{0.985} & 0.980 & 0.960 & 0.900 & 0.565 \\
++ rotation       & 0.975 & 0.975 & 0.955 & 0.940 & 0.865 & 0.685 & 0.985 & 0.960 & \textbf{0.960} \\
++ plane + rotation (ours) & \textbf{0.995} & \textbf{0.980} & \textbf{0.985} & \textbf{0.990} & \textbf{0.985} & \textbf{0.985} & \textbf{0.995} & \textbf{0.980} & 0.940 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Ablation on the workshop conditions (fixed split, rank-1).}
+\end{table}
+\vspace{-0.6cm}
+
+\begin{table}[H]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lcccccccccc}
+\toprule
+ & \multicolumn{5}{c}{rotation $\theta$} & \multicolumn{4}{c}{lighting ($s=0.8$ unless noted)} & light 0.6 \\
+\cmidrule(lr){2-6}\cmidrule(lr){7-10}
+ & $-20^\circ$ & $-10^\circ$ & $15^\circ$ & $25^\circ$ & $30^\circ$ & reversed & vertical & multipl. & spotlight & + rot $10^\circ$ \\
+\midrule
+Baseline & 0.680 & 0.930 & 0.770 & 0.495 & 0.345 & 0.735 & 0.775 & 0.695 & 0.830 & 0.690 \\
+Ours     & \textbf{0.970} & \textbf{0.985} & \textbf{0.950} & \textbf{0.925} & \textbf{0.900} & \textbf{0.965} & \textbf{0.945} & \textbf{0.950} & \textbf{0.900} & \textbf{0.990} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\caption{Conditions that were never used to choose the method or its settings.}
+\end{table}
+\vspace{-0.5cm}
+
+\noindent\textbf{Normal photos are not hurt.} With the paper's protocol (100 random 5+5 splits,
+unchanged images), the baseline gives $0.9826 \pm 0.0096$ (paper: $0.98 \pm 0.012$) and ours
+gives $0.9831 \pm 0.0109$.
+\textbf{Observations.} Plane subtraction alone lowers rot $20^\circ$ to 0.565; combined with
+the rotation search the drop disappears. In preliminary checks, global histogram
+equalisation had no effect (LBP is already invariant to monotonic maps), CLAHE lowered
+\emph{normal} to 0.930, and DoG / Tan--Triggs filtering fixed lighting but lowered rot
+$20^\circ$ to 0.43 or below. Cost: the gallery is $9\times$ larger, so matching is about
+$9\times$ slower. A non-linear spotlight is only partly removed by a plane (0.830 $\to$ 0.900).
+
+\section{Code}
+
+\noindent Repository: \repo\\
+\texttt{lbpface/robust.py} -- the method (plane subtraction, rotation search);
+\texttt{experiments/workshop.py} -- the evaluation (split and all conditions);
+\texttt{tests/test\_robust.py}, \texttt{tests/test\_workshop.py} -- tests.
+The original baseline code is unchanged.
+\begin{verbatim}
+python -m experiments.workshop --methods baseline --out results/baseline.json   # Table 1
+python -m experiments.workshop --extra --n-perm 100                              # Tables 2-3
+\end{verbatim}
+
+\end{document}

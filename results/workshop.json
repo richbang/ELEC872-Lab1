@@ -1,0 +1,253 @@
+{
+  "config": {
+    "conditions": [
+      "normal",
+      "bright",
+      "light 0.2",
+      "light 0.4",
+      "light 0.6",
+      "light 0.8",
+      "rot 5",
+      "rot 10",
+      "rot 20",
+      "rot -20",
+      "rot -10",
+      "rot 15",
+      "rot 25",
+      "rot 30",
+      "light 0.8 reversed",
+      "light 0.8 vertical",
+      "light 0.8 multiplicative",
+      "spotlight",
+      "light 0.6 + rot 10"
+    ],
+    "data": "ORL",
+    "methods": {
+      "+plane": {
+        "angles": [
+          0.0
+        ],
+        "descriptor": {
+          "P": 16,
+          "R": 2.0,
+          "anchor": "center",
+          "border": "edge",
+          "grid": null,
+          "window": [
+            30,
+            37
+          ]
+        },
+        "plane": true
+      },
+      "+plane+rotation": {
+        "angles": [
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0,
+          0.0,
+          6.0,
+          12.0,
+          18.0,
+          24.0
+        ],
+        "descriptor": {
+          "P": 16,
+          "R": 2.0,
+          "anchor": "center",
+          "border": "edge",
+          "grid": null,
+          "window": [
+            30,
+            37
+          ]
+        },
+        "plane": true
+      },
+      "+rotation": {
+        "angles": [
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0,
+          0.0,
+          6.0,
+          12.0,
+          18.0,
+          24.0
+        ],
+        "descriptor": {
+          "P": 16,
+          "R": 2.0,
+          "anchor": "center",
+          "border": "edge",
+          "grid": null,
+          "window": [
+            30,
+            37
+          ]
+        },
+        "plane": false
+      },
+      "baseline": {
+        "angles": [
+          0.0
+        ],
+        "descriptor": {
+          "P": 16,
+          "R": 2.0,
+          "anchor": "center",
+          "border": "edge",
+          "grid": null,
+          "window": [
+            30,
+            37
+          ]
+        },
+        "plane": false
+      }
+    },
+    "n_perm": 100,
+    "seed": 0,
+    "split": "images 1-5 gallery, 6-10 probe"
+  },
+  "experiment": "workshop",
+  "meta": {
+    "code_fingerprint": "b37ecf6c93c9328716471333596312f0b74aab0ad58c7ca049362b53b6ee305b",
+    "dataset_fingerprint": "f80b6eecf2cd5f720756e066195ae302f857e5d49b1faa3267c36f9a3e22d264",
+    "environment": {
+      "machine": "AMD64",
+      "numpy": "2.2.6",
+      "pillow": "12.3.0",
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.10.11",
+      "scipy": "1.15.3",
+      "threads_env": {
+        "MKL_NUM_THREADS": null,
+        "OMP_NUM_THREADS": null,
+        "OPENBLAS_NUM_THREADS": null
+      }
+    },
+    "timestamp_utc": "2026-10-06T19:47:40+00:00"
+  },
+  "result_digest": "ef154b826a2a40584d1fad64c4061c6b093f7de99590a635bff9e6eb7ba25a40",
+  "results": {
+    "permutation_normal": {
+      "+plane": {
+        "lower": 0.96,
+        "mean": 0.9837499999999999,
+        "n_permutations": 100,
+        "std": 0.010668915482641981,
+        "upper": 1.0
+      },
+      "+plane+rotation": {
+        "lower": 0.96,
+        "mean": 0.98315,
+        "n_permutations": 100,
+        "std": 0.01093264502637525,
+        "upper": 1.0
+      },
+      "+rotation": {
+        "lower": 0.962375,
+        "mean": 0.9827999999999999,
+        "n_permutations": 100,
+        "std": 0.009436657514740333,
+        "upper": 1.0
+      },
+      "baseline": {
+        "lower": 0.962375,
+        "mean": 0.9826499999999997,
+        "n_permutations": 100,
+        "std": 0.009573084110877723,
+        "upper": 1.0
+      }
+    },
+    "rank1": {
+      "+plane": {
+        "bright": 0.98,
+        "light 0.2": 0.985,
+        "light 0.4": 0.99,
+        "light 0.6": 0.985,
+        "light 0.6 + rot 10": 0.885,
+        "light 0.8": 0.98,
+        "light 0.8 multiplicative": 0.95,
+        "light 0.8 reversed": 0.965,
+        "light 0.8 vertical": 0.94,
+        "normal": 0.995,
+        "rot -10": 0.915,
+        "rot -20": 0.61,
+        "rot 10": 0.9,
+        "rot 15": 0.715,
+        "rot 20": 0.565,
+        "rot 25": 0.41,
+        "rot 30": 0.3,
+        "rot 5": 0.96,
+        "spotlight": 0.9
+      },
+      "+plane+rotation": {
+        "bright": 0.98,
+        "light 0.2": 0.985,
+        "light 0.4": 0.99,
+        "light 0.6": 0.985,
+        "light 0.6 + rot 10": 0.99,
+        "light 0.8": 0.985,
+        "light 0.8 multiplicative": 0.95,
+        "light 0.8 reversed": 0.965,
+        "light 0.8 vertical": 0.945,
+        "normal": 0.995,
+        "rot -10": 0.985,
+        "rot -20": 0.97,
+        "rot 10": 0.98,
+        "rot 15": 0.95,
+        "rot 20": 0.94,
+        "rot 25": 0.925,
+        "rot 30": 0.9,
+        "rot 5": 0.995,
+        "spotlight": 0.9
+      },
+      "+rotation": {
+        "bright": 0.975,
+        "light 0.2": 0.955,
+        "light 0.4": 0.94,
+        "light 0.6": 0.865,
+        "light 0.6 + rot 10": 0.83,
+        "light 0.8": 0.685,
+        "light 0.8 multiplicative": 0.69,
+        "light 0.8 reversed": 0.735,
+        "light 0.8 vertical": 0.765,
+        "normal": 0.975,
+        "rot -10": 0.99,
+        "rot -20": 0.96,
+        "rot 10": 0.96,
+        "rot 15": 0.955,
+        "rot 20": 0.96,
+        "rot 25": 0.945,
+        "rot 30": 0.9,
+        "rot 5": 0.985,
+        "spotlight": 0.835
+      },
+      "baseline": {
+        "bright": 0.975,
+        "light 0.2": 0.955,
+        "light 0.4": 0.94,
+        "light 0.6": 0.87,
+        "light 0.6 + rot 10": 0.69,
+        "light 0.8": 0.705,
+        "light 0.8 multiplicative": 0.695,
+        "light 0.8 reversed": 0.735,
+        "light 0.8 vertical": 0.775,
+        "normal": 0.975,
+        "rot -10": 0.93,
+        "rot -20": 0.68,
+        "rot 10": 0.89,
+        "rot 15": 0.77,
+        "rot 20": 0.63,
+        "rot 25": 0.495,
+        "rot 30": 0.345,
+        "rot 5": 0.965,
+        "spotlight": 0.83
+      }
+    }
+  }
+}

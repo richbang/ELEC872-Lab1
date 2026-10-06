@@ -1,0 +1,74 @@
+{
+  "config": {
+    "conditions": [
+      "normal",
+      "bright",
+      "light 0.2",
+      "light 0.4",
+      "light 0.6",
+      "light 0.8",
+      "rot 5",
+      "rot 10",
+      "rot 20"
+    ],
+    "data": "ORL",
+    "methods": {
+      "baseline": {
+        "angles": [
+          0.0
+        ],
+        "descriptor": {
+          "P": 16,
+          "R": 2.0,
+          "anchor": "center",
+          "border": "edge",
+          "grid": null,
+          "window": [
+            30,
+            37
+          ]
+        },
+        "fill": "nearest",
+        "plane": false
+      }
+    },
+    "n_perm": 0,
+    "seed": 0,
+    "split": "images 1-5 gallery, 6-10 probe"
+  },
+  "experiment": "workshop",
+  "meta": {
+    "code_fingerprint": "b2fe8739455f22b6364515b9619ef1130ae64b1d6ea991f1509b4c0f8b6fe7a5",
+    "dataset_fingerprint": "f80b6eecf2cd5f720756e066195ae302f857e5d49b1faa3267c36f9a3e22d264",
+    "environment": {
+      "machine": "AMD64",
+      "numpy": "2.2.6",
+      "pillow": "12.3.0",
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.10.11",
+      "scipy": "1.15.3",
+      "threads_env": {
+        "MKL_NUM_THREADS": null,
+        "OMP_NUM_THREADS": null,
+        "OPENBLAS_NUM_THREADS": null
+      }
+    },
+    "timestamp_utc": "2026-10-06T18:23:43+00:00"
+  },
+  "result_digest": "bf29c8a866ac2a9bbd6783d442323b9ff950e8f99a1bf4a5ad6628c257d11af4",
+  "results": {
+    "rank1": {
+      "baseline": {
+        "bright": 0.975,
+        "light 0.2": 0.955,
+        "light 0.4": 0.94,
+        "light 0.6": 0.87,
+        "light 0.8": 0.705,
+        "normal": 0.975,
+        "rot 10": 0.89,
+        "rot 20": 0.63,
+        "rot 5": 0.965
+      }
+    }
+  }
+}

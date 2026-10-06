@@ -1,0 +1,6 @@
+# ORL face images are not redistributed (see README, "Data")
+data/
+
+__pycache__/
+*.pyc
+.pytest_cache/
